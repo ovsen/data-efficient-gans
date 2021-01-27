@@ -266,6 +266,7 @@ class CIFAR10(dset.CIFAR10):
         # now load the picked numpy arrays
         self.data = []
         self.labels = []
+        allowed = [2,7]
         for fentry in self.train_list:
             f = fentry[0]
             file = os.path.join(self.root, self.base_folder, f)
@@ -274,11 +275,10 @@ class CIFAR10(dset.CIFAR10):
                 entry = pickle.load(fo)
             else:
                 entry = pickle.load(fo, encoding='latin1')
-            self.data.append(entry['data'])
             if 'labels' in entry:
-                self.labels += entry['labels']
-            else:
-                self.labels += entry['fine_labels']
+                if entry['labels'] in allowed:
+                    self.labels += entry['labels']
+                    self.data.append(entry['data'])
             fo.close()
 
         self.data = np.concatenate(self.data)
@@ -329,11 +329,10 @@ class CIFAR10(dset.CIFAR10):
                 entry = pickle.load(fo)
             else:
                 entry = pickle.load(fo, encoding='latin1')
-            self.data = entry['data']
             if 'labels' in entry:
-                self.labels = entry['labels']
-            else:
-                self.labels = entry['fine_labels']
+                if entry['labels'] in allowed:
+                    self.labels = entry['labels']
+                    self.data = entry['data']
             fo.close()
             self.data = self.data.reshape((10000, 3, 32, 32))
             self.data = self.data.transpose((0, 2, 3, 1))  # convert to HWC
