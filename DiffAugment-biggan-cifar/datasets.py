@@ -286,7 +286,8 @@ class CIFAR10(dset.CIFAR10):
             else:
                 print(entry)
             fo.close()
-
+        print(len(self.data))
+        print(self.data)
         self.data = np.concatenate(self.data)
         # Randomly select indices for validation
         if self.val_split > 0:
