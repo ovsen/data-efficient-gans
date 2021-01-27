@@ -279,6 +279,10 @@ class CIFAR10(dset.CIFAR10):
                 if entry['labels'] in allowed:
                     self.labels += entry['labels']
                     self.data.append(entry['data'])
+            elif 'fine_labels' in entry:
+                if entry['fine_labels'] in allowed:
+                    self.labels += entry['fine_labels']
+                    self.data.append(entry['data'])
             fo.close()
 
         self.data = np.concatenate(self.data)
@@ -333,6 +337,10 @@ class CIFAR10(dset.CIFAR10):
                 if entry['labels'] in allowed:
                     self.labels = entry['labels']
                     self.data = entry['data']
+            elif 'fine_labels' in entry:
+                if entry['fine_labels'] in allowed:
+                    self.labels += entry['fine_labels']
+                    self.data.append(entry['data'])
             fo.close()
             self.data = self.data.reshape((10000, 3, 32, 32))
             self.data = self.data.transpose((0, 2, 3, 1))  # convert to HWC
