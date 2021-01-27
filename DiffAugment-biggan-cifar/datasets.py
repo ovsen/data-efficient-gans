@@ -283,8 +283,7 @@ class CIFAR10(dset.CIFAR10):
                 if entry['fine_labels'] in allowed:
                     self.labels += entry['fine_labels']
                     self.data.append(entry['data'])
-            else:
-                print(entry)
+            print(entry)
             fo.close()
         print(len(self.data))
         print(self.data)
